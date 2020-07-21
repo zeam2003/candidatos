@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GraficasComponent } from './graficas/graficas.component';
 import { ProgressComponent } from './progress/progress.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,8 @@ const routes: Routes = [
           { path: '', component: DashboardComponent },
           { path: 'graficas', component: GraficasComponent },
           { path: 'progress', component: ProgressComponent },
+          { path: 'account-settings', component: AccountSettingsComponent },
+
           // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
         ]
       },
