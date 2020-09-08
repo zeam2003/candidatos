@@ -11,6 +11,9 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
 
+// Mantenimientos
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+
 
 
 const routes: Routes = [
@@ -29,14 +32,17 @@ const routes: Routes = [
           { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
 
           // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+
+          // Mantenimientos
+          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de la Aplicación' } },
         ]
       },
 
-    //{ path: 'path/:routeParam', component: MyComponent },
-    //{ path: 'staticPath', component: ... },
-    //{ path: '**', component: ... },
-    //{ path: 'oldPath', redirectTo: '/staticPath' },
-    //{ path: ..., component: ..., data: { message: 'Custom' }
+    // { path: 'path/:routeParam', component: MyComponent },
+    // { path: 'staticPath', component: ... },
+    // { path: '**', component: ... },
+    // { path: 'oldPath', redirectTo: '/staticPath' },
+    // { path: ..., component: ..., data: { message: 'Custom' }
 ];
 
 @NgModule({
