@@ -1,0 +1,150 @@
+<div class="row ani fadein fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="txt" class="form-control" placeholder="Buscar..." #txtTermino (keyup)="buscar(txtTermino.value)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere...</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title">Busquedas ({{ busquedas.length }})</h4>
+                        <h6 class="card-subtitle">Búsquedas registradas en la apliación</h6>
+                    </div>
+                    <div class="col">
+                        <div class="text-right">
+                            <button class="btn btn-primary" (click)="abrirSweetAlert()">
+                                <i class="fa fa-bullseye"></i>
+                                Crear Búsqueda
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" *ngIf="busquedas.length === 0">
+                    <div class="card col-12">
+                        No hay busquedas disponibles
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <caption><small>Haga click para modificar el avatar, nombre o en lapíz para una edicion avanzada</small></caption>
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Nombre</th>
+                                <th>Perfil</th>
+                                <th>Creado</th>
+                                <th>Estado</th>
+                                <th class="text-nowrap w100">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                            <tr *ngFor="let busqueda of busquedas">
+
+                                <td class="text-center">
+                                    <img [src]="busqueda.img | imagen:'busquedas'" class="avatar cursor" [alt]=" busqueda.nombre" (click)="abrirModal( busqueda )">
+                                </td>
+
+                                <td>
+                                    <input type="text " class="form-control " [(ngModel)]="busqueda.nombre " (ngModelChange)=imprimirHola(busqueda) [ngModelOptions]="{updateOn: 'blur'}" placeholder="Nombre de la búsqueda ">
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-button" (click)="perfil()">
+                                        
+                                    </button>
+                                </td>
+
+                                <td class="w100"><small>{{ busqueda.created | momentFecha}}</small>
+
+                                </td>
+
+                                <td class="w100">
+                                    <div [ngSwitch]="busqueda.estado">
+                                        <span *ngSwitchCase="1" class="label label-success">Activa</span>
+                                        <span *ngSwitchCase="2" class="label label-warning">Pausada</span>
+                                        <span *ngSwitchCase="3" class="label label-info">Finalizada</span>
+                                        <span *ngSwitchCase="4" class="label label-danger ">Cancelada</span>
+                                    </div>
+
+
+                                    <!--   <span *ngIf="busqueda.estado === '1'" class="label label-purple"></span>
+                                    
+                                    <select class="form-control">  
+                                        <option value="Activa" class="label label-danger ">Activa</option>
+                                        <option  value="Pausada">Pausada</option>
+                                        <option  value="Pausada">Finalizada</option>
+                                        <option  value="Pausada">Cancelada</option>
+                                    </select> -->
+                                </td>
+                                <td class="text-nowrap text-center w100 text-nowrap ">
+                                    <a (click)=guardarCambios(busqueda) class="cursor " data-toggle="tooltip " data-original-title="Guardar cambios "> <i class="fa fa-save text-inverse m-r-10 "></i> </a>
+                                    <a (click)=guardarCambios(busqueda) class="cursor " data-toggle="tooltip " data-original-title="Guardar cambios "> <i class="fa fa-pencil text-inverse m-r-10 "></i> </a>
+                                    <!-- <a (click)="eliminarBusqueda(busqueda) " class="cursor " data-toggle="tooltip " data-original-title="Borrar "> <i class="fa fa-close text-danger "></i> </a> -->
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th class="w100 ">Avatar</th>
+                                <th class="w140 ">Nombre</th>
+                                <th class="text-nowrap w100 ">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let busqueda of busquedas ">
+                                <td class="text-center ">
+                                    <img [src]="busqueda.img | imagen: 'busquedas' " class="avatar cursor " [alt]="busqueda.nombre ">
+                                </td>
+                                <td>
+                                    <input type="text " class="form-control " [(ngModel)]="busqueda.nombre " placeholder="Nombre de la búsqueda ">
+                                </td>
+
+                                <td class="text-nowrap text-center ">
+                                    <a href="# " data-toggle="tooltip " data-original-title="Guardar cambios "> <i class="fa fa-pencil text-inverse m-r-10 "></i> </a>
+                                    <a href="# " data-toggle="tooltip " data-original-title="Borrar "> <i class="fa fa-close text-danger "></i> </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table> -->
+                </div>
+
+                <button class="btn btn-secondary ">Anteriores</button> &nbsp;
+                <button class="btn btn-secondary ">Siguientes</button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -53,7 +53,7 @@ export class ModalImagenComponent implements OnInit {
     // al pasar por referencia se actualiza automaticamente
         .then( img => {
 
-          Swal.fire('Guardado!', 'Imagen de usuario actualizada', 'success');
+          Swal.fire('Guardado!', 'Imagen actualizada', 'success');
           this.modalImagenService.nuevaImagen.emit(img);
           this.cerrarModal();
         }, (err) => {

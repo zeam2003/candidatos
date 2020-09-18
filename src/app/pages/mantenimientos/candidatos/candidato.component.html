@@ -1,0 +1,382 @@
+<div class="row animated fadeIn fast">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-info" *ngIf="estadoTitulo">
+                <h4 class="m-b-0 text-white">Nuevo Candidato
+
+                </h4>
+
+            </div>
+
+            <div class="card-header bg-info" *ngIf="!estadoTitulo">
+                <h4 class="m-b-0 text-white">Actualización del Candidato
+
+                </h4>
+
+            </div>
+            <div class="card-body">
+
+                <div class="progress">
+                    <div class="progress-bar bg-success pull-right" role="progressbar" [style.width]="getProgreso2" style="height:15px;" role="progressbar"> <span>Progreso:</span> {{ progreso2 }}% </div>
+                </div>
+                <br>
+
+                <form class="form-horizontal p-t-20" [formGroup]="candidatoForm" (submit)="guardarCandidato()">
+                    <!-- Información Personal-->
+                    <section class="animated fadeIn fast">
+
+                        <div class="form-body ">
+                            <h3 class="card-title ">Información Personal</h3>
+                            <hr>
+                            <div class="row p-t-20 ">
+                                <div class="col-md-7 ">
+                                    <div class="form-group ">
+                                        <label class="control-label ">Nombre</label>
+                                        <input formControlName="nombre" type="text " id="firstName " class="form-control " placeholder="Ej. Juan ">
+                                        <small class="form-control-feedback "> Introduzca el nombre completo </small>
+                                    </div>
+                                </div>
+                                <!--/span-->
+
+                                <div class="col-md-3" *ngIf="candidatoSeleccionado">
+                                    <div class="form-group ">
+                                        <label class="control-label ">Foto</label>
+                                        <br>
+                                        <img [src]="candidatoSeleccionado.img | imagen: 'candidatos'" style="width: 50px; " alt="">
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Foto</label>
+                                        <img src="http://localhost:3000/api/upload/usuarios/3c9fc892-e38e-4d4e-922d-8ccebs89ecd0b.png" style="width: 50px; margin-top:25px" alt="">
+                                    </div>
+                                </div> -->
+
+
+
+
+
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row ">
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label class="control-label ">Genero</label>
+                                        <select class="form-control custom-select ">
+                                        <option>-- -- --</option>
+                                        <option value=" " class="has-success ">Masculino</option>
+                                        <option value=" ">Femenino</option>
+                                    </select>
+                                        <small class="form-control-feedback "> Seleccione el genero </small> </div>
+                                </div>
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>Nacionalidad</label>
+                                        <input class="typeahead form-control tt-input" type="text" placeholder="Seleccione un País" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+
+                                    </div>
+
+                                </div>
+
+                                <!--/span-->
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label class="control-label ">Fecha de Nacimiento</label>
+                                        <input type="date " class="form-control " placeholder="dd/mm/yyyy ">
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+                            <!--/row-->
+                            <div class="row ">
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>RFC</label>
+                                        <input type="text " class="form-control " placeholder="Ej. LOMP8206281HO ">
+                                        <small class="form-control-feedback "> Ingrese el RFC</small>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>CURP</label>
+                                        <input type="text " class="form-control " placeholder="Ej. MASM020203M.. ">
+                                        <small class="form-control-feedback "> Ingrese el CURP</small>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>IMSS</label>
+                                        <input type="text " class="form-control " placeholder="Ej. 9407000000 - 9">
+                                        <small class="form-control-feedback "> Ingrese el IMSS</small>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!--/row-->
+                            <div class="row ">
+
+                                <div class="col-md-5 ">
+                                    <div class="form-group ">
+                                        <label>INE</label>
+                                        <input type="text " class="form-control " placeholder="Ej. GMVLMR8007501M100 ">
+                                        <small class="form-control-feedback "> Ingrese el número INE </small>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2 ">
+                                    <div class="form-group ">
+                                        <label>Edad</label>
+                                        <input type="text " disabled class="form-control ">
+                                        <small class="form-control-feedback "> Edad del candidato </small>
+                                    </div>
+
+                                </div>
+
+                                <!--/span-->
+                                <div class="col-md-5 ">
+                                    <div class="form-group ">
+                                        <label class="control-label ">Dispuesto a Viajar</label>
+                                        <div class="form-check">
+                                            <label class="custom-control custom-radio">
+                                                <input id="radio1" name="radio" type="radio" checked class="custom-control-input">
+                                                <span class="custom-control-indicator"></span>
+                                                <span class="custom-control-description">Sí</span>
+                                            </label>
+                                            <label class="custom-control custom-radio">
+                                                <input id="radio2" name="radio" type="radio" class="custom-control-input">
+                                                <span class="custom-control-indicator"></span>
+                                                <span class="custom-control-description">No</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+
+
+                            <h3 class="box-title m-t-40 ">Domicilio Actual</h3>
+                            <hr>
+                            <div class="row ">
+                                <div class="col-md-6 ">
+                                    <div class="form-group ">
+                                        <label>Calle</label>
+                                        <input type="text " class="form-control " placeholder="Ej. Fake Street ">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 ">
+                                    <div class="form-group ">
+                                        <label>Número</label>
+                                        <input type="text " class="form-control " placeholder="Ej. 1234 ">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>Ciudad</label>
+                                        <input type="text " class="form-control " placeholder="Ej. Night City ">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+
+                                <!--/span-->
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>Estado o Provincia</label>
+                                        <input type="text " class="form-control " placeholder="Ej. C.D.Mx. ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 ">
+                                    <div class="form-group ">
+                                        <label>Codigo Postal</label>
+                                        <input type="text " class="form-control " placeholder="Ej. 10192 ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label>País</label>
+                                        <select class="form-control custom-select ">
+                                            <option>Seleccione el País</option>
+                                            <option>Argentina</option>
+                                            <option>Mexico</option>
+                                            <option>Brasil</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <h3 class="box-title m-t-40 ">Contacto</h3>
+                            <hr>
+                            <div class="row ">
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>Email</label>
+                                        <input formControlName="email" type="text " class="form-control " placeholder="Ej. jperez@test.com ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 ">
+                                    <div class="form-group ">
+                                        <label>Telefono</label>
+                                        <input type="text " class="form-control " placeholder="Ej. 55 44 5432419 ">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-actions ">
+                            <button type="button " class="btn btn-secondary"> Anterior</button>
+                            <button type="button " (click)="siguientePaso()" class="btn btn-secondary"> Siguiente </button>
+
+                            <br><br>
+                        </div>
+
+
+
+                    </section>
+                    <!-- Fin Información Personal-->
+                    <!-- Inicio Búsquedas-->
+                    <!-- Búsqueda-->
+                    <section class="animated fadeIn fast">
+                        <div class="form-body ">
+                            <h3 class="card-title ">Búsqueda</h3>
+                            <hr>
+                            <!--row-->
+                            <div class="row p-t-20 ">
+
+
+                                <div class="col">
+                                    <div class="form-group ">
+                                        <label class="control-label">Debe elegir una búsqueda para asociarsela al candidato</label>
+                                        <div class="input-group">
+                                            <select class="form-control custom-select " formControlName="busqueda">
+                                                    <option value="">Seleccione...</option>
+                                                    <option *ngFor="let busqueda of busquedas" [value]="busqueda._id">{{ busqueda.nombre }}</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div *ngIf="busquedaSeleccionada" class="animated fadeIn fast ">
+                                <div class="row p-t-20">
+                                    <div class="col-md-1 ">
+                                        <label class="control-label ">ID</label>
+                                        <input type="text" class="form-control text-center" disabled value="1" placeholder="">
+
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <label class="control-label ">Nombre</label>
+                                        <input type="text" class="form-control text-center" disabled value="{{busquedaSeleccionada.nombre}}">
+                                    </div>
+
+
+                                    <div class="col-md-3 ">
+                                        <div class="form-group ">
+                                            <label class="control-label ">Foto</label>
+                                            <br>
+                                            <img class="w50" [src]="busquedaSeleccionada.img | imagen:'busquedas'" alt="">
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row p-t-10">
+                                    <div class="col-md-7">
+                                        <label class="control-label ">Perfil</label>
+                                        <input type="text" class="form-control text-center" disabled value="{{busquedaSeleccionada.nombre}}">
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="control-label ">Cliente</label>
+                                        <input type="text" class="form-control text-center" disabled placeholder="Ej. Edenred">
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row p-t-20 ">
+                                    <div class="col-md-3">
+                                        <label class="control-label ">Rubro</label>
+                                        <input type="text" class="form-control text-center" placeholder="Ej. Software Factory">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="control-label ">Puesto</label>
+                                        <input type="text" class="form-control text-center" placeholder="Desarrollador Full Stack">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="control-label ">Sitio</label>
+                                        <input type="text" class="form-control text-center" placeholder="Oficinas cliente">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label ">Vacantes</label>
+                                        <input type="text" class="form-control text-center" placeholder="1">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label ">Estado</label>
+                                        <input type="text" class="form-control text-center" placeholder="Activa">
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-12">
+                                        <label>Observaciones</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-20 ">
+
+                                    <div class="col-md-12 ">
+                                        <div class="card-title">
+                                            <span class="help-block text-muted"><small>Creado por: Jskldjfasf</small></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span class="help-block text-muted"><small>Modficado por: 123Jskldjfasf</small></span>
+                                    </div>
+                                </div>
+
+                                <!--/row-->
+                                <div class="form-actions ">
+                                    <button type="button " class="btn btn-secondary"> Anterior</button>
+                                    <button type="button " (click)="siguientePaso()" class="btn btn-secondary"> Siguiente </button>
+
+                                    <br><br>
+
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar </button>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

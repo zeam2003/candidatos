@@ -25,7 +25,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   public imgSubs: Subscription;
 
   constructor( private usuarioService: UsuarioService,
-               private busquedaService: BusquedasService,
+               private busquedasService: BusquedasService,
                private modalImagenService: ModalImagenService) { }
 
   ngOnDestroy(): void {
@@ -62,6 +62,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.usuarios = usuarios;
       this.usuariosTemp = usuarios;
       this.cargando = false;
+
     });
   }
 
@@ -83,8 +84,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       return this.usuarios = this.usuariosTemp;
     }
 
-    this.busquedaService.buscar('usuarios', termino )
-      .subscribe( resultados => {
+    this.busquedasService.buscar('usuarios', termino )
+      .subscribe( (resultados: Usuario[]) => {
         this.usuarios = resultados;
       } );
   }
@@ -117,13 +118,58 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.usuarioService.guardarUsuario( usuario )
       .subscribe( resp => {
         console.log(resp);
+        this.abrirToast();
+      });
+  }
+
+  cambioEstado( usuario: Usuario) {
+
+    if ( usuario.estado ) {
+      usuario.estado = false;
+    } else if (!usuario.estado) {
+      usuario.estado = true;
+     }
+    console.log('asi llega elestado ', usuario);
+
+    this.usuarioService.guardarUsuario( usuario )
+      .subscribe( resp => {
+        console.log(resp);
+        this.abrirToast();
+      });
+    /* this.usuarioService.actualizarPerfil( usuario )
+      .subscribe( resp => {
+        console.log(resp);
 
       });
+     */
   }
 
 
   abrirModal(usuario: Usuario) {
 
-    this.modalImagenService.abrirModal('usuarios',usuario.uid, usuario.img);
+    this.modalImagenService.abrirModal('usuarios', usuario.uid, usuario.img);
+  }
+
+
+  async abrirToast( ) {
+    const Toast = await Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+
+    console.log('estoy en el medio del toast');
+    Toast.fire({
+      icon: 'success',
+      title: 'Usuario Actualizado correctamente'
+    });
+
+    console.log('estoy al fin del toast');
   }
 }

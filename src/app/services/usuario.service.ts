@@ -121,16 +121,22 @@ export class UsuarioService {
 
 
   // Actualizar Perfil
-  actualizarPerfil( data: { email: string, nombre: string, role: string }) {
+  actualizarPerfil( data: { email: string, nombre: string, role?: string, estado?: boolean}) {
 
     data = {
       ...data,
-      role: this.usuario.role
+      role: this.usuario.role,
+      estado: this.usuario.estado
     };
 
     return this.http.put( `${base_url}/usuarios/${ this.uid }`, data, this.headers);
   }
 
+  // Actualizar estado {
+  actualizarEstado( usuario: Usuario ) {
+    return this.http.put(`${base_url}/usuarios/${ this.uid }`, usuario, this.headers);
+  }
+  
   // Login / Ingreso Normal
 
   login( formData: LoginForm ) {
@@ -161,7 +167,8 @@ export class UsuarioService {
     return this.http.get<CargarUsuario>( url, this.headers )
       .pipe(
         map( resp => {
-          const usuarios = resp.usuarios.map( user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid));
+          const usuarios = resp.usuarios
+          .map( user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.estado, user.uid));
           return {
             total: resp.total,
             usuarios

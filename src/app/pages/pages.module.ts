@@ -17,9 +17,12 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
-
-
-
+import { BusquedasComponent } from './mantenimientos/busquedas/busquedas.component';
+import { CandidatosComponent } from './mantenimientos/candidatos/candidatos.component';
+import { ClientesComponent } from './mantenimientos/clientes/clientes.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { CandidatoComponent } from './mantenimientos/candidatos/candidato.component';
+import { ArchwizardModule } from 'angular-archwizard';
 
 
 @NgModule({
@@ -32,7 +35,11 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
     PromesasComponent,
     RxjsComponent,
     PerfilComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    BusquedasComponent,
+    CandidatosComponent,
+    ClientesComponent,
+    CandidatoComponent
   ],
   exports: [
     DashboardComponent,
@@ -47,7 +54,9 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
     ReactiveFormsModule,
     SharedModule,
     RouterModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule,
+    ArchwizardModule
    ]
 })
 export class PagesModule { }

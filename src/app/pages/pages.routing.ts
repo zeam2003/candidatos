@@ -13,6 +13,10 @@ import { PerfilComponent } from './perfil/perfil.component';
 
 // Mantenimientos
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { CandidatosComponent } from './mantenimientos/candidatos/candidatos.component';
+import { BusquedasComponent } from './mantenimientos/busquedas/busquedas.component';
+import { ClientesComponent } from './mantenimientos/clientes/clientes.component';
+import { CandidatoComponent } from './mantenimientos/candidatos/candidato.component';
 
 
 
@@ -34,7 +38,11 @@ const routes: Routes = [
           // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 
           // Mantenimientos
-          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de la Aplicación' } },
+          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios registrados' } },
+          { path: 'candidatos', component: CandidatosComponent, data: { titulo: 'Candidatos registrados' } },
+          { path: 'candidato/:id', component: CandidatoComponent, data: { titulo: 'Candidatos registrados' } },
+          { path: 'busquedas', component: BusquedasComponent, data: { titulo: 'Busquedas registradas'  } },
+          { path: 'clientes', component: ClientesComponent, data: { titulo: 'Clientes registrados' } },
         ]
       },
 

@@ -27,14 +27,16 @@
                 <h6 class="card-subtitle">Usuarios registrados en la apliación</h6>
                 <div class="table-responsive">
                     <table class="table table-bordered">
+                        <caption><small>Haga click para modificar el avatar, rol o estado</small></caption>
                         <thead>
                             <tr>
                                 <th class="w100">Avatar</th>
                                 <th>Correo</th>
                                 <th>Nombre</th>
-                                <th class="w140">Role</th>
+                                <th class="w140">Rol</th>
                                 <th class="w100">Auth</th>
-                                <th class="text-nowrap w100">Acciones</th>
+                                <th class="w100">Estado</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -52,14 +54,14 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <span *ngIf="!usuario.google" class="label label-info">Email</span>
+                                    <span *ngIf="!usuario.google" class="label label-purple">Email</span>
                                     <span *ngIf="usuario.google" class="label label-danger">Google</span>
                                 </td>
-
-                                <td class="text-nowrap text-center">
-
-                                    <a class="cursor" data-toggle="tooltip" (click)="eliminarUsuario(usuario)" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                <td>
+                                    <span *ngIf="!usuario.estado" (click)="cambioEstado(usuario)" class="label label-danger cursor">Baja</span>
+                                    <span *ngIf="usuario.estado" (click)="cambioEstado(usuario)" class="label label-success cursor">Activo</span>
                                 </td>
+
                             </tr>
 
                         </tbody>
