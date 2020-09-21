@@ -1,6 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
 import { AuthGuard } from '../guards/auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -17,6 +19,8 @@ import { CandidatosComponent } from './mantenimientos/candidatos/candidatos.comp
 import { BusquedasComponent } from './mantenimientos/busquedas/busquedas.component';
 import { ClientesComponent } from './mantenimientos/clientes/clientes.component';
 import { CandidatoComponent } from './mantenimientos/candidatos/candidato.component';
+import { BuscadorComponent } from './buscador/buscador.component';
+
 
 
 
@@ -31,6 +35,7 @@ const routes: Routes = [
           { path: 'graficas', component: GraficasComponent, data: { titulo: 'Graficas' } },
           { path: 'progress', component: ProgressComponent, data: { titulo: 'Progreso' } },
           { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Preferencias' } },
+          { path: 'buscador/:termino', component: BuscadorComponent, data: { titulo: 'Buscador' } },
           { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
           { path: 'rxjs', component: RxjsComponent, data: { titulo: 'rxjs' } },
           { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
@@ -38,11 +43,13 @@ const routes: Routes = [
           // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 
           // Mantenimientos
-          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios registrados' } },
           { path: 'candidatos', component: CandidatosComponent, data: { titulo: 'Candidatos registrados' } },
           { path: 'candidato/:id', component: CandidatoComponent, data: { titulo: 'Candidatos registrados' } },
           { path: 'busquedas', component: BusquedasComponent, data: { titulo: 'Busquedas registradas'  } },
           { path: 'clientes', component: ClientesComponent, data: { titulo: 'Clientes registrados' } },
+
+          // Rutas de Admin
+          { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Usuarios registrados' } },
         ]
       },
 

@@ -12,7 +12,7 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 import { Usuario } from '../models/usuario.model';
-
+import Swal from 'sweetalert2';
 
 
 const base_url = environment.base_url;
@@ -31,14 +31,21 @@ export class UsuarioService {
                private ngZone: NgZone) {
 
     this.googleInit();
+    console.log(this.usuario);
+  }
+
+  get uid(): string {
+    console.log(this.usuario.uid);
+    return this.usuario.uid || '';
+
   }
 
   get token(): string {
     return localStorage.getItem('token') || '';
   }
 
-  get uid(): string {
-    return this.usuario.uid || '';
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role;
   }
 
   get headers() {
@@ -47,6 +54,11 @@ export class UsuarioService {
         'x-token': this.token
       }
     };
+  }
+
+  guardarLocalStorage( token: string, menu: any ) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
   }
 
   googleInit() {
@@ -69,6 +81,8 @@ export class UsuarioService {
   // Logout
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
+
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
@@ -77,6 +91,8 @@ export class UsuarioService {
 
   }
 
+  // borrar TODO
+
   // Validar Token
   validarToken(): Observable<boolean> {
 
@@ -84,25 +100,28 @@ export class UsuarioService {
       headers: {
         'x-token':  this.token
       }
-    }).pipe(
-      map ( (resp: any) => {
-
+    })
+    .pipe(
+      tap( (resp: any) => {
+        console.log(resp);
         const {
           email,
           google,
           nombre,
           role,
-          img = '',
+          img,
+          estado,
           uid
         } = resp.usuario;
 
-        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-
+        this.usuario = new Usuario( nombre, email, '', img, google, role, estado, uid );
         localStorage.setItem('token', resp.token);
-        return true;
       }),
-
-      catchError( error => of(false) )
+      map( resp => true),
+      catchError( error => {
+        console.log(error);
+        return  of(false);
+      })
     );
   }
 
@@ -114,7 +133,7 @@ export class UsuarioService {
     return this.http.post( `${base_url}/usuarios`, formData)
                 .pipe(
                   tap( (resp: any) => {
-                    localStorage.setItem('token', resp.token);
+                    this.guardarLocalStorage(resp.token, resp.menu);
                   })
                 );
   }
@@ -122,7 +141,7 @@ export class UsuarioService {
 
   // Actualizar Perfil
   actualizarPerfil( data: { email: string, nombre: string, role?: string, estado?: boolean}) {
-
+    console.log('usuario en actualizar perfil', this.uid);
     data = {
       ...data,
       role: this.usuario.role,
@@ -136,7 +155,7 @@ export class UsuarioService {
   actualizarEstado( usuario: Usuario ) {
     return this.http.put(`${base_url}/usuarios/${ this.uid }`, usuario, this.headers);
   }
-  
+
   // Login / Ingreso Normal
 
   login( formData: LoginForm ) {
@@ -144,7 +163,7 @@ export class UsuarioService {
     return this.http.post( `${base_url}/login`, formData)
                 .pipe(
                   tap( (resp: any) => {
-                    localStorage.setItem('token', resp.token);
+                    this.guardarLocalStorage(resp.token, resp.menu);
                   })
                 );
   }
@@ -155,7 +174,7 @@ export class UsuarioService {
     return this.http.post( `${base_url}/login/google`, {token})
                 .pipe(
                   tap( (resp: any) => {
-                    localStorage.setItem('token', resp.token);
+                    this.guardarLocalStorage(resp.token, resp.menu);
                     // console.log('guardo token', resp.token);
                   })
                 );
@@ -164,7 +183,9 @@ export class UsuarioService {
   cargarUsuarios( desde: number = 0) {
 
     const url = `${base_url}/usuarios?desde=${ desde }`;
-    return this.http.get<CargarUsuario>( url, this.headers )
+
+    try {
+      return this.http.get<CargarUsuario>( url, this.headers )
       .pipe(
         map( resp => {
           const usuarios = resp.usuarios
@@ -175,6 +196,10 @@ export class UsuarioService {
           };
         })
       );
+    } catch (error) {
+      Swal.fire('Algo salió mal!', 'no se pudieron cargar los usuarios...', 'error' );
+    }
+
   }
 
   eliminarUsuario( usuario: Usuario ) {

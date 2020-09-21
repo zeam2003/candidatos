@@ -23,6 +23,7 @@ import { ClientesComponent } from './mantenimientos/clientes/clientes.component'
 import { PipesModule } from '../pipes/pipes.module';
 import { CandidatoComponent } from './mantenimientos/candidatos/candidato.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { BuscadorComponent } from './buscador/buscador.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ArchwizardModule } from 'angular-archwizard';
     BusquedasComponent,
     CandidatosComponent,
     ClientesComponent,
-    CandidatoComponent
+    CandidatoComponent,
+    BuscadorComponent
   ],
   exports: [
     DashboardComponent,

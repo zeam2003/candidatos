@@ -1,0 +1,96 @@
+<div class="row animated fadeIn fast">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Usuarios</h3>
+
+                <div class="alert alert-info animated fadeIn fast" *ngIf="usuarios.length === 0">
+                    <p class="mb-0">
+                        No hay usuarios con ese término
+                    </p>
+                </div>
+                <div class="table-responsive" *ngIf="usuarios.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr class="animated fadeIn fast" *ngFor="let usuario of usuarios" class="animated fadeIn fast">
+                                <th>
+                                    <img class="w75" [src]="usuario.img | imagen: 'usuarios'">
+                                </th>
+                                <th>{{ usuario.nombre }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Busquedas</h3>
+
+                <div class="alert alert-info animated fadeIn fast" *ngIf="busquedas.length === 0">
+                    <p class="mb-0">
+                        No hay búsquedas con ese término
+                    </p>
+                </div>
+                <div class="table-responsive" *ngIf="busquedas.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let busqueda of busquedas" class="animated fadeIn fast">
+                                <td>
+                                    <img class="w75" [src]="busqueda.img | imagen: 'busquedas'" alt="">
+                                </td>
+                                <td>{{ busqueda.nombre }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Candidatos</h3>
+
+                <div class="alert alert-info animated fadeIn fast" *ngIf="candidatos.length === 0">
+                    <p class="mb-0">
+                        No hay candidatos con ese término
+                    </p>
+                </div>
+                <div class="table-responsive" *ngIf="candidatos.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let candidato of candidatos" class="animated fadeIn fast cursor" (click)="abrirCandidato( candidato )">
+                                <td>
+                                    <img class="w75" [src]="candidato.img | imagen: 'candidatos'" alt="{{ candidato.nombre }}"></td>
+                                <td>{{ candidato.nombre }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
